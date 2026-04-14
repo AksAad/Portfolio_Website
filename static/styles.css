@@ -73,57 +73,55 @@
     align-items: center;
 }
 
-/* Container that controls alignment */
+
 .hero-line-2-container {
     position: relative;
     display: inline-block;
-    text-align: left;      /* ensures children align to left edge */
+    text-align: left;      
 }
 
 /* Line 1 */
 .hero-line-1 {
     font-family: 'Pixelify Sans', sans-serif;
-    font-size: 64px;
-    margin-bottom: 10px;
+    font-size: 80px;
+    margin-bottom: 0px;
 }
 
 /* Name */
 .hero-line-2 {
     font-family: 'Pixeboy', sans-serif;
-    font-size: 200px;
-    line-height: 1;
+    font-size: 230px;
+    line-height: 0.7;
+    margin-top: 0px;
 }
 
 /* Star */
 .hero-star {
     position: absolute;
+    margin-top: 10px;
     right: -50px;
-    bottom: 20px;
-    width: 160px;
+    bottom: -10px;
+    width: 250px;
 }
 
 /* Line 3 */
 .hero-line-3 {
     font-family: 'Pixelify Sans', sans-serif;
-    font-size: 32px;
-    margin-top: 30px;
-    letter-spacing: 9px;
+    font-size: 30px;
+    margin-top: 5px;
+    letter-spacing: 20px;
 }
 .hero-footer {
     position: absolute;
     bottom: 40px;
-
     left: 50%;
     transform: translateX(-50%);
-
     font-family: 'Orbitron', sans-serif;
-    font-size: 28px;
-
+    font-size: 26px;
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 6px;
-
     opacity: 0;
     animation: fadeIn 0.6s ease forwards;
     animation-delay: 1.5s;
@@ -132,7 +130,7 @@
     width: 10px;
     height: 10px;
     animation: jumpInfinite 1.5s infinite;
-    margin-top: 4px;
+    margin-top: 0px;
     animation: bounce 2s ease infinite;
 }
 .down-arrow:after {
