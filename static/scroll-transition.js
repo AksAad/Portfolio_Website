@@ -1,4 +1,4 @@
-let lastState = "hero"; // "hero" or "projects"
+let lastState = "hero"; 
 
 window.addEventListener("scroll", () => {
     const hero = document.querySelector(".hero-section");
@@ -20,8 +20,6 @@ window.addEventListener("scroll", () => {
             overlay.classList.remove("active");
         }, 300);
     }
-
-    // UP → projects -> hero
     else if (currentScroll <= trigger && lastState === "projects") {
         lastState = "hero";
 
