@@ -1,20 +1,30 @@
 @font-face {
     font-family: 'Orbitron';
-    src: url('../assets/Orbitron-VariableFont_wght.ttf') format('truetype');
+    src: url('/assets/Orbitron-VariableFont_wght.ttf') format('truetype');
     font-weight: 100 900;
     font-style: normal;
+    font-display: block;
 }
 @font-face {
     font-family: 'Pixelify Sans';
-    src: url('../assets/PixelifySans-VariableFont_wght.ttf');
+    src: url('/assets/PixelifySans-VariableFont_wght.ttf') format('truetype');
+    font-weight: 400 700;
+    font-style: normal;
+    font-display: block;
 }
 @font-face {
     font-family: 'Pixeboy';
-    src: url('../assets/Pixeboy.ttf');
+    src: url('/assets/Pixeboy.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
 }
 @font-face {
     font-family: 'Quantico';
-    src: url('../assets/Quantico-Regular.ttf');
+    src: url('/assets/Quantico-Regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: block;
 }
 
 @keyframes fadeIn {
