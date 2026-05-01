@@ -363,3 +363,43 @@ function spawnSparkles() {
         setTimeout(() => p.remove(), 700);
     }
 }
+
+const sendBtn = document.getElementById("sendBtn");
+
+sendBtn.addEventListener("click", async () => {
+    const inputs = document.querySelectorAll(".contact-input");
+
+    const name = inputs[0].value;
+    const email = inputs[1].value;
+    const message = inputs[2].value;
+
+    try {
+        const res = await fetch("http://localhost:5000/send-message", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ name, email, message })
+        });
+
+        const data = await res.json();
+
+        if (data.success) {
+            alert("Message sent");
+        } else {
+            alert("Error sending message");
+        }
+
+    } catch (err) {
+        console.error(err);
+        alert("Server error");
+    }
+});
+
+const clearBtn = document.getElementById("clearBtn");
+
+clearBtn.addEventListener("click", () => {
+    document.querySelectorAll(".contact-input").forEach(input => {
+        input.value = "";
+    });
+});

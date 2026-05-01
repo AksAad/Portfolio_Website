@@ -671,3 +671,35 @@ a.more-link {
     z-index: 3000;
     pointer-events: none;
 }
+
+/* ===== CONTACT BUTTONS ===== */
+
+.contact-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.contact-btn {
+    font-family: 'Pixeboy';
+    font-size: 24px;
+    padding: 10px 22px;
+    border: 2px solid #000;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.contact-btn:hover {
+    background: #000;
+    color: #fff;
+}
+
+/* secondary button (clear) slightly lighter feel */
+.contact-btn--secondary {
+    opacity: 0.8;
+}
+
+.contact-btn--secondary:hover {
+    opacity: 1;
+}
