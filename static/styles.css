@@ -652,3 +652,22 @@ a.more-link {
 .contact-input::-moz-placeholder {
     opacity: 0.12;
 }
+
+.building-computer {
+    transition: transform 0.2s ease;
+    will-change: transform;
+}
+
+
+.star,.star-small-1,.star-small-2 {
+    transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+.sparkle {
+    position: fixed;
+    width: 4px;
+    height: 4px;
+    background: black;
+    z-index: 3000;
+    pointer-events: none;
+}

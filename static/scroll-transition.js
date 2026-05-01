@@ -253,3 +253,113 @@ const decipherObserver = new IntersectionObserver((entries) => {
 }, { threshold: 0.001 });
 
 decipherEls.forEach(el => decipherObserver.observe(el));
+
+
+// ===============================
+// COMPUTER TILT (Premium subtle)
+// ===============================
+
+const computer = document.querySelector(".building-computer");
+
+let targetRX = 0, targetRY = 0;
+let currentRX = 0, currentRY = 0;
+let tiltActive = false;
+
+computer.addEventListener("mousemove", (e) => {
+    const rect = computer.getBoundingClientRect();
+
+    const x = (e.clientX - rect.left) / rect.width - 0.5;
+    const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+    targetRY = x * 10;   // horizontal tilt
+    targetRX = -y * 10;  // vertical tilt
+
+    tiltActive = true;
+});
+
+computer.addEventListener("mouseleave", () => {
+    targetRX = 0;
+    targetRY = 0;
+    tiltActive = false;
+});
+
+function animateComputerTilt() {
+    currentRX += (targetRX - currentRX) * 2;
+    currentRY += (targetRY - currentRY) * 2;
+
+    const scale = tiltActive ? 1.04 : 1;
+
+    computer.style.transform = `
+        perspective(800px)
+        rotateX(${currentRX}deg)
+        rotateY(${currentRY}deg)
+        scale(${scale})
+    `;
+
+    requestAnimationFrame(animateComputerTilt);
+}
+
+animateComputerTilt();
+
+
+const starsContainer = document.querySelector(".milestones-stars");
+const stars = document.querySelectorAll(".star");
+
+let starHoverActive = false;
+
+starsContainer.addEventListener("mouseenter", () => {
+    if (starHoverActive) return;
+    starHoverActive = true;
+    stars.forEach(star => {
+        star.style.transform = "scale(1.1)";
+        star.style.filter = "drop-shadow(0 0 8px rgba(0,0,0,0.5))";
+    });
+
+    spawnSparkles();
+});
+
+starsContainer.addEventListener("mouseleave", () => {
+    starHoverActive = false;
+
+    stars.forEach(star => {
+        star.style.transform = "scale(1)";
+        star.style.filter = "none";
+    });
+});
+
+
+// ===============================
+// SPARKLE PARTICLES
+// ===============================
+
+function spawnSparkles() {
+    const rect = starsContainer.getBoundingClientRect();
+
+    for (let i = 0; i < 20; i++) {
+        const p = document.createElement("div");
+        p.className = "sparkle";
+        document.body.appendChild(p);
+
+        const x = rect.left + Math.random() * rect.width;
+        const y = rect.top + Math.random() * rect.height;
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 80 + 40;
+
+        const dx = Math.cos(angle) * distance;
+        const dy = Math.sin(angle) * distance;
+
+        p.style.left = `${x}px`;
+        p.style.top = `${y}px`;
+
+        p.animate([
+            { transform: "translate(0,0)", opacity: 1 },
+            { transform: `translate(${dx}px, ${dy}px)`, opacity: 0 }
+        ], {
+            duration: 700,
+            easing: "ease-out"
+        });
+
+        setTimeout(() => p.remove(), 700);
+    }
+}
