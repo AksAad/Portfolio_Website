@@ -1,4 +1,3 @@
-
 const observer = new IntersectionObserver(
     (entries) => {
         entries.forEach(entry => {
@@ -15,6 +14,7 @@ const observer = new IntersectionObserver(
 observer.observe(document.querySelector(".projects-frame"));
 observer.observe(document.querySelector(".building-frame"));
 observer.observe(document.querySelector(".milestones-frame"));
+observer.observe(document.querySelector(".about-frame"));
 
 const navbar = document.querySelector(".navbar");
 let lastScrollY  = 0;
@@ -38,6 +38,16 @@ document.addEventListener("mousemove", (e) => {
     } else if (navbarHidden) {
         navbar.classList.add("navbar--hidden");
     }
+});
+
+// ── Navbar smooth scroll ──
+const navTargets = { Home: "home", Projects: "projects", Milestones: "milestones", About: "about" };
+document.querySelectorAll(".nav-item").forEach(item => {
+    item.addEventListener("click", () => {
+        const id = navTargets[item.textContent.trim()];
+        const target = document.getElementById(id);
+        if (target) target.scrollIntoView({ behavior: "smooth" });
+    });
 });
 
 const cursorRing = document.createElement("div");
@@ -67,6 +77,18 @@ animateCursor();
 document.querySelectorAll("a, button, .nav-item, .projects-storm").forEach(el => {
     el.addEventListener("mouseenter", () => cursorRing.classList.add("cursor-ring--hover"));
     el.addEventListener("mouseleave", () => cursorRing.classList.remove("cursor-ring--hover"));
+});
+
+// I-beam cursor for typable inputs — hide the custom ring, show native text cursor
+document.querySelectorAll("input, textarea").forEach(el => {
+    el.addEventListener("mouseenter", () => {
+        cursorRing.style.opacity = "0";
+        cursorDot.style.opacity  = "0";
+    });
+    el.addEventListener("mouseleave", () => {
+        cursorRing.style.opacity = "1";
+        cursorDot.style.opacity  = "1";
+    });
 });
 
 const storm = document.querySelector(".projects-storm");
@@ -142,19 +164,39 @@ function wrapElement(el) {
             const text = node.textContent;
             if (!text.trim()) return;
             const frag = document.createDocumentFragment();
-            for (let i = 0; i < text.length; i++) {
-                const ch = text[i];
-                const span = document.createElement("span");
-                span.dataset.real = ch;
-                if (ch === " " || ch === "\n" || ch === "\r") {
-                    span.className = "dc-space";
-                    span.textContent = ch;
-                } else {
+
+            // Split text into tokens: words and whitespace runs
+            // This keeps words atomic so they never break mid-character
+            const tokens = text.split(/(\s+)/);
+
+            tokens.forEach(token => {
+                if (!token) return;
+
+                const isWhitespace = /^\s+$/.test(token);
+                if (isWhitespace) {
+                    // Render whitespace as a plain text node so the browser
+                    // can use it as a natural line-break opportunity
+                    frag.appendChild(document.createTextNode(token));
+                    return;
+                }
+
+                // Wrap the whole word in an inline-block container so it
+                // never gets split across lines by the scramble spans inside
+                const wordSpan = document.createElement("span");
+                wordSpan.className = "dc-word";
+
+                for (let i = 0; i < token.length; i++) {
+                    const ch = token[i];
+                    const span = document.createElement("span");
+                    span.dataset.real = ch;
                     span.className = isLink ? "dc-char dc-char--link" : "dc-char";
                     span.textContent = ch;
+                    wordSpan.appendChild(span);
                 }
-                frag.appendChild(span);
-            }
+
+                frag.appendChild(wordSpan);
+            });
+
             node.replaceWith(frag);
         } else if (node.nodeType === Node.ELEMENT_NODE && node.tagName !== "SCRIPT") {
             Array.from(node.childNodes).forEach(processNode);
@@ -163,13 +205,6 @@ function wrapElement(el) {
 
     Array.from(el.childNodes).forEach(processNode);
     el.dataset.decipherReady = "1";
-
-    requestAnimationFrame(() => {
-        el.querySelectorAll(".dc-char:not(.dc-char--link)").forEach(span => {
-            const w = span.getBoundingClientRect().width;
-            span.style.minWidth = w + "px";
-        });
-    });
 }
 
 function startDecipher(el) {
